@@ -1,0 +1,316 @@
+<!--user_dashboard.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAL User Dashboard</title>
+  <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    :root {
+      --primary-dark: #001f3f;
+      --primary-light: #0074d9;
+      --accent: #ffd700;
+      --text-light: #ffffff;
+      --drawer-width: 250px;
+    }
+
+    body {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Drawer Styles */
+    .drawer {
+      width: var(--drawer-width);
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px 0;
+      height: 100vh;
+      position: fixed;
+      transition: transform 0.3s ease;
+    }
+
+    .drawer-header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .drawer-menu {
+      margin-top: 20px;
+    }
+
+    .menu-item {
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .menu-item i {
+      margin-right: 10px;
+      width: 20px;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: var(--drawer-width);
+      flex: 1;
+      padding: 20px;
+    }
+
+    /* Profile Section */
+    .profile-section {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-value {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .notification-center {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .notification-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .notification-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .notification-item.unread {
+      border-left: 3px solid var(--accent);
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .notification-title {
+      font-weight: bold;
+    }
+
+    .notification-timestamp {
+      font-size: 0.8em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mark-all-read {
+      background: var(--accent);
+      color: var(--primary-dark);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .mark-all-read:hover {
+      opacity: 0.9;
+    }
+
+    .notification-badge {
+      background: var(--accent);
+      color: var(--primary-dark);
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.8em;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+<!-- Drawer Navigation -->
+<div class="drawer">
+  <div class="drawer-header">
+<!--    <img th:src="${profilePicture != null ? profilePicture : '/api/placeholder/80/80'}"-->
+<!--         alt="User Profile" class="profile-pic">-->
+<!--    <h3 th:text="${fullName != null ? fullName : 'User'}">User Name</h3>-->
+
+    <img th:src="${session.loggedInUser.profilePicturePath != null ? session.loggedInUser.profilePicturePath : '/api/placeholder/80/80'}"
+         alt="User Profile" class="profile-pic">
+    <h3 th:text="${session.loggedInUser.firstName + ' ' + session.loggedInUser.lastName}">User Name</h3>
+
+  </div>
+  <nav class="drawer-menu">
+    <a href="#" class="menu-item">
+      <i class="fas fa-tachometer-alt"></i>
+      Dashboard
+    </a>
+    <a href="/user/profile" class="menu-item">
+      <i class="fas fa-user"></i>
+      Profile
+    </a>
+
+    <a href="#" class="menu-item">
+      <i class="fas fa-calendar-alt"></i>
+      Events
+    </a>
+    <a href="#" class="menu-item">
+      <i class="fas fa-basketball-ball"></i>
+      Teams
+    </a>
+    <a href="login" class="menu-item">
+      <i class="fas fa-sign-out-alt"></i>
+      Logout
+    </a>
+  </nav>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <!-- Dynamic welcome message -->
+  <h1 th:text="${'Welcome, ' + (fullName != null ? fullName : 'User')}">Welcome to the User Dashboard</h1>
+
+  <!-- Dashboard Cards -->
+  <div class="dashboard-cards">
+
+    <div class="notification-center">
+      <h2>Notifications <span id="unreadCount" class="notification-badge">0</span></h2>
+      <button id="markAllRead" class="mark-all-read">Mark All as Read</button>
+      <div id="notificationList">
+        <!-- Notifications will be dynamically inserted here -->
+      </div>
+    </div>
+    <div class="dashboard-card">
+      <i class="fas fa-calendar-check fa-2x"></i>
+      <div class="card-value">3 Upcoming Events</div>
+    </div>
+    <div class="dashboard-card">
+      <i class="fas fa-trophy fa-2x"></i>
+      <div class="card-value">Team Rank: 5th</div>
+    </div>
+    <div class="dashboard-card">
+      <i class="fas fa-user-friends fa-2x"></i>
+      <div class="card-value">12 Friends</div>
+    </div>
+  </div>
+
+  <!-- Profile Section -->
+  <div class="profile-section">
+    <h2>My Profile</h2>
+    <p>Welcome to your personal dashboard. Here, you can view your upcoming events, monitor your team's progress, and stay connected with your friends.</p>
+  </div>
+</div>
+
+<script>
+  // Function to format timestamp
+  function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  }
+
+  // Function to fetch and display notifications
+  function loadNotifications() {
+    fetch('/notifications/user/unread')
+            .then(response => response.json())
+            .then(notifications => {
+              const notificationList = document.getElementById('notificationList');
+              const unreadCount = document.getElementById('unreadCount');
+
+              notificationList.innerHTML = '';
+              unreadCount.textContent = notifications.length;
+
+              notifications.forEach(notification => {
+                const notificationElement = document.createElement('div');
+                notificationElement.className = 'notification-item unread';
+                notificationElement.innerHTML = `
+                            <div class="notification-header">
+                                <span class="notification-title">${notification.title}</span>
+                                <span class="notification-timestamp">${formatTimestamp(notification.timestamp)}</span>
+                            </div>
+                            <div class="notification-message">${notification.message}</div>
+                        `;
+                notificationList.appendChild(notificationElement);
+
+                // Add click handler to mark individual notification as read
+                notificationElement.addEventListener('click', () => {
+                  fetch(`/notifications/mark-as-read/${notification.id}`, {
+                    method: 'PUT'
+                  })
+                          .then(() => {
+                            notificationElement.classList.remove('unread');
+                            loadNotifications(); // Refresh the list
+                          });
+                });
+              });
+            })
+            .catch(error => console.error('Error loading notifications:', error));
+  }
+
+  // Mark all notifications as read
+  document.getElementById('markAllRead').addEventListener('click', () => {
+    fetch('/notifications/user/mark-all-as-read', {
+      method: 'PUT'
+    })
+            .then(() => {
+              loadNotifications(); // Refresh the list
+            })
+            .catch(error => console.error('Error marking all as read:', error));
+  });
+
+  // Load notifications initially and every 30 seconds
+  loadNotifications();
+  setInterval(loadNotifications, 30000);
+</script>
+</body>
+</html>

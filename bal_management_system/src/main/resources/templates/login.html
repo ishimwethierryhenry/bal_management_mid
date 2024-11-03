@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{login.page}">Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+    <style>
+        /* Global Styling */
+        body {
+            background: linear-gradient(270deg, #ff758c, #ff7eb3);
+            background-size: 400% 400%;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: gradientAnimation 8s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            display: flex;
+            background-color: #3b3b3b;
+            border-radius: 15px;
+            overflow: hidden;
+            width: 900px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            animation: fadeInContainer 1s forwards, slideInContainer 1s forwards;
+        }
+
+        @keyframes fadeInContainer {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInContainer {
+            from { transform: translateY(20px); }
+            to { transform: translateY(0); }
+        }
+
+        .login-box {
+            padding: 40px;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: #fff;
+        }
+
+        .login-box h1, .login-box h3 {
+            text-align: center;
+            color: #fff;
+            animation: fadeInText 1s forwards;
+        }
+
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-box p {
+            text-align: center;
+            animation: fadeInText 1.2s forwards;
+        }
+
+        .login-box label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+            color: #fff;
+        }
+
+        .login-box input {
+            background-color: #282828;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .login-box input:focus {
+            border: 2px solid #29ffdf;
+            box-shadow: 0px 0px 10px rgba(41, 255, 223, 0.6);
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff758c;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+            box-shadow: 0px 4px 10px rgba(255, 117, 140, 0.3);
+        }
+
+        .login-box button:hover {
+            background-color: #ff5a70;
+            transform: translateY(-3px);
+        }
+
+        .login-box a {
+            color: #ff758c;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .login-box a:hover {
+            color: #ff5a70;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-container {
+            display: flex ;
+            align-items: center;
+        }
+
+        .checkbox-container input {
+            margin-left: 10px;
+        }
+
+        .checkbox-container label {
+            font-size: 14px;
+            color: black;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-login a {
+            color: white;
+            font-size: 24px;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        .social-login a:hover {
+            color: #ff758c;
+        }
+
+        .right-side {
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .image-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .image-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.5s ease;
+        }
+
+        .right-side:hover .image-background img {
+            transform: scale(1.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+            }
+
+            .right-side {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Login Form Section -->
+    <div class="login-box">
+        <h1 th:text="#{login.welcome}">Welcome back</h1>
+        <h3 th:text="#{login.page}">LOGIN PAGE</h3>
+        <p th:text="#{login.enterDetails}">Please Enter your Account details</p>
+
+        <form th:action="@{/login}" method="post" th:object="${user}">
+            <label th:text="#{login.username}" for="username">Username</label>
+            <input type="text" id="username" th:field="*{username}" required>
+
+            <label th:text="#{login.password}" for="password">Password</label>
+            <input type="password" id="password" th:field="*{password}" required>
+
+            <div class="options">
+                <div class="checkbox-container">
+                    <label th:text="#{login.keepLoggedIn}" for="keep-logged-in">Keep me logged in</label>
+                    <input type="checkbox" id="keep-logged-in">
+                </div>
+                <p><a th:href="@{/forgot-password}" th:text="#{login.forgotPassword}">Forgot Password?</a></p>
+
+            </div>
+            <button type="submit" th:text="#{login.submit}">Log in</button>
+
+            <div th:if="${error}" th:text="${error}" class="error"></div>
+
+            <div class="social-login">
+                <p th:text="#{login.orLoginWith}">Or login with:</p>
+                <a th:href="@{/oauth2/authorization/github}" aria-label="Login with GitHub"><i class="fab fa-github"></i></a>
+                <a th:href="@{/oauth2/authorization/facebook}" aria-label="Login with Facebook"><i class="fab fa-facebook"></i></a>
+                <a th:href="@{/oauth2/authorization/gmail}" aria-label="Login with Gmail"><i class="fab fa-google"></i></a>
+
+
+
+<!--                <a href="your_google_login_url" aria-label="Login with Google"><i class="fab fa-google"></i></a>-->
+<!--                <a href="your_github_login_url" aria-label="Login with GitHub"><i class="fab fa-github"></i></a>-->
+<!--                <a href="your_facebook_login_url" aria-label="Login with Facebook"><i class="fab fa-facebook"></i></a>-->
+            </div>
+        </form>
+
+        <!-- New member link -->
+        <div style="margin-top: 20px; text-align: center;">
+            <p>
+                <a th:href="@{/register}" th:text="#{login.newMember}"></a>
+            </p>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+
+            <p><a th:href="@{/}" th:text="#{login.backToLanding}">Back to the Landing Page</a></p>
+
+        </div>
+    </div>
+
+    <!-- Right Section for BAL Image -->
+    <div class="right-side">
+        <div class="image-background">
+            <img src="images/bal_image.jpeg" alt="Basketball Africa League" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="nav-buttons">
+            <!-- Example buttons, uncomment if needed -->
+            <!-- <button>&lt;</button> -->
+            <!-- <button>&gt;</button> -->
+        </div>
+    </div>
+</div>
+</body>
+</html>

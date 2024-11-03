@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{about.bal.title}">About the Basketball Africa League</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #001f3f, #0074d9);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header, footer {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+        header h1, footer p {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .content p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .mission-section, .history-section, .values-section {
+            margin-bottom: 50px;
+        }
+        .values-list {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .value-item {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        .value-item h3 {
+            font-size: 24px;
+        }
+        .cta-buttons {
+            margin-top: 30px;
+        }
+        .cta-buttons a {
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 20px;
+            background-color: #ff758c;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 th:text="#{about.bal.title}">About the Basketball Africa League</h1>
+</header>
+
+<div class="content">
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <h2 th:text="#{about.bal.mission.title}">Our Mission</h2>
+        <p th:text="#{about.bal.mission.text}">The Basketball Africa League (BAL) is committed to advancing and elevating the sport of basketball across the African continent. By providing a competitive arena for elite athletes, the BAL highlights Africa's exceptional talent and promotes the growth of the sport at all levels. In partnership with the NBA, we strive to inspire a passion for basketball, engage fans from diverse communities, and build a vibrant community that celebrates the game. Through this collaboration, the BAL aspires to create lasting opportunities for players, coaches, and fans alike, fueling a deeper connection to basketball throughout Africa.</p>
+    </section>
+
+    <!-- History Section -->
+    <section class="history-section">
+        <h2 th:text="#{about.bal.history.title}">Our History</h2>
+        <p th:text="#{about.bal.history.text}">Founded in 2020, the Basketball Africa League (BAL) represents a significant milestone in the world of sports, created through a historic partnership between the NBA and FIBA. This groundbreaking league is the first instance of the NBA joining forces to operate a league outside of North America, underscoring its dedication to expanding basketball’s reach. Featuring top teams from various African nations, the BAL is devoted to showcasing African basketball talent on an international platform and strengthening the sport's influence and impact across the continent and beyond.</p>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="values-section">
+        <h2 th:text="#{about.bal.values.title}">Core Values</h2>
+        <div class="values-list">
+            <div class="value-item">
+                <h3 th:text="#{about.bal.values.excellence}">Excellence</h3>
+                <p th:text="#{about.bal.values.excellence.text}">Striving for the highest standards in athleticism, coaching, and fan engagement.</p>
+            </div>
+            <div class="value-item">
+                <h3 th:text="#{about.bal.values.community}">Community</h3>
+                <p th:text="#{about.bal.values.community.text}">Building strong connections with communities to promote growth and unity through sports.</p>
+            </div>
+            <div class="value-item">
+                <h3 th:text="#{about.bal.values.inspiration}">Inspiration</h3>
+                <p th:text="#{about.bal.values.inspiration.text}">Inspiring future generations of players and fans across Africa and beyond.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <div class="cta-buttons">
+        <a th:href="@{/home}" th:text="#{about.bal.cta.home}">HOME</a>
+        <a th:href="@{/register}" th:text="#{about.bal.cta.join}">Join the BAL Community</a>
+        <a th:href="@{/login}" th:text="#{about.bal.cta.explore}">Explore BAL Matches</a>
+    </div>
+</div>
+
+<footer>
+    <p th:text="#{about.bal.footer.text}">&copy; 2024 Basketball Africa League. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

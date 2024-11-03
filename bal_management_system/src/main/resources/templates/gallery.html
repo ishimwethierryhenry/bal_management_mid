@@ -1,0 +1,89 @@
+<!--gallery.html-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gallery | Basketball Africa League</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #001f3f, #0074d9);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header, footer {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+        header h1, footer p {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .cta-buttons {
+            margin-top: 30px;
+        }
+        .cta-buttons a {
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 20px;
+            background-color: #ff758c;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Gallery</h1>
+</header>
+
+<div class="content">
+    <h2>Basketball Africa League Gallery</h2>
+    <p>Check out some of the best moments from the Basketball Africa League.</p>
+
+    <div class="gallery">
+        <img src="images/image1.jpg" alt="Image 1">
+        <img src="images/image2.jpg" alt="Image 2">
+        <img src="images/image3.jpg" alt="Image 3">
+        <!-- Add more images as needed -->
+    </div>
+
+    <div class="cta-buttons">
+        <a th:href="@{/home}">HOME</a>
+        <a th:href="@{/register}">Join the BAL Community</a>
+        <a th:href="@{/matches}">View Matches</a>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Basketball Africa League. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

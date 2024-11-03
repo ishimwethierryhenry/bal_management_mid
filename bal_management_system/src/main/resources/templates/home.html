@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{title}">Home | The webSite of the Basketball Africa League developed by Thierry Henry</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Link to the favicon -->
+  <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #001f3f, #0074d9); /* Blue-black gradient */
+      margin: 0;
+      padding: 0;
+      color: #fff; /* Keep the text color white for contrast */
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      color: #fff;
+      font-size: 30px;
+      display: flex; /* Use flex to align logo and text */
+      align-items: center; /* Center align the logo with the text */
+    }
+
+    header img {
+      height: 100px; /* Increased height for the logo */
+      margin-right: 90px; /* Add space between logo and text */
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+      text-align: center;
+      background: url('hero-bg.jpg') no-repeat center center/cover;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .hero h1 {
+      font-size: 50px;
+      z-index: 1;
+    }
+
+    .hero p {
+      font-size: 22px;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    .hero .cta-buttons {
+      margin-top: 40px;
+      z-index: 1;
+    }
+
+    .hero .cta-buttons a {
+      padding: 15px 30px;
+      margin: 0 10px;
+      border-radius: 30px;
+      background-color: #ff758c;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+
+    .hero .cta-buttons a:hover {
+      background-color: #ff5a70;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 50px 20px;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .features h2 {
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+
+    .features .feature-list {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .features .feature-item {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      border-radius: 15px;
+      width: 200px;
+      transition: transform 0.3s ease;
+    }
+
+    .features .feature-item:hover {
+      transform: translateY(-10px);
+    }
+
+    .features .feature-item h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .features .feature-item p {
+      font-size: 16px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 20px;
+      background-color: rgba(0, 0 , 0, 0.8);
+      text-align: center;
+      color: white;
+    }
+
+    footer p {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .features .feature-list {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<header>
+  <h1>
+    <img src="images/uppermostlogo.jpg" alt="BAL Logo"> <!-- Logo before text -->
+    <span th:text="#{header.title}">Basketball Africa League</span>
+  </h1>
+  <nav>
+    <a th:href="@{/matches}" th:text="#{nav.matches}">Matches</a>
+    <a th:href="@{/standings}" th:text="#{nav.standings}">Standings</a>
+    <a th:href="@{/stats}" th:text="#{nav.stats}">Stats</a>
+    <a th:href="@{/players}" th:text="#{nav.players}">Players</a>
+    <a th:href="@{/gallery}" th:text="#{nav.gallery}">Gallery</a>
+    <a th:href="@{/aboutBal}" th:text="#{nav.about}">About</a>
+    <a th:href="@{/logout}" th:text="#{nav.logout}">Logout</a>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<div class="hero">
+  <div class="content">
+    <h1 th:text="${message}">Welcome to BAL</h1>
+    <h2 th:text="'Hello Dear,Your Username is: ' + ${username}">Hello Dear User,</h2>
+    <h2 th:text="'And Your Role is: ' + ${role}">Hello Dear User,</h2>
+
+    <p th:text="#{hero.description}">Basketball Africa League (BAL) is a premier professional basketball league in Africa, established in 2020 in collaboration with the National Basketball Association (NBA). This groundbreaking league features top teams from across the continent, showcasing elite talent and promoting the growth of basketball in Africa. The BAL aims to elevate the profile of African basketball on the global stage, inspiring the next generation of players while providing fans with thrilling competitions and unforgettable moments. With a commitment to community engagement and youth development, the league serves as a catalyst for positive change in African society through sports. Join us in celebrating the spirit of competition and unity that basketball brings to Africa!</p>
+    <div class="cta-buttons">
+      <!-- Uncomment these buttons if needed -->
+      <!-- <a th:href="@{/login}" th:text="#{hero.getStarted}">Get Started</a> -->
+      <!-- <a th:href="@{/register}" th:text="#{hero.joinNow}">Join Now</a> -->
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<section class="features">
+  <h2 th:text="#{features.title}">Why BAL?</h2>
+  <div class="feature-list">
+    <div class="feature-item">
+      <h3 th:text="#{features.matches}">Exciting Matches</h3>
+      <p th:text="#{features.matchesDescription}">Experience the thrill of high-stakes basketball with our live broadcasts of the Basketball Africa League games, featuring some of the best talent from across the continent.</p>
+    </div>
+    <div class="feature-item">
+      <h3 th:text="#{features.accessible}">Accessible to All</h3>
+      <p th:text="#{features.accessibleDescription}">Join us in promoting basketball in Africa! Our platform provides free access to games, highlights, and player stats, ensuring everyone can enjoy the action.</p>
+    </div>
+    <div class="feature-item">
+      <h3 th:text="#{features.eliteTalent}">Showcasing Elite Talent</h3>
+      <p th:text="#{features.eliteTalentDescription}">Watch as top African teams and players compete for glory in the BAL, bringing you the best in professional basketball and showcasing the continent's rising stars.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer Section -->
+<footer>
+  <p th:text="#{footer.copyright}">&copy; 2024 BAL. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

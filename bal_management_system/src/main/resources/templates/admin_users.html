@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{header.title}"></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the favicon -->
+    <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+
+    <!-- Link to Font Awesome for icons -->
+    <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #001f3f, #0074d9);
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            color: #fff;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .container {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: relative; /* Added for absolute positioning of download button */
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .download-btn i {
+            margin-right: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+            margin: 20px 0;
+        }
+
+        th {
+            color: #ffd700;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border: none;
+        }
+
+        td {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            text-align: center;
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #28a745;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+        }
+
+        .btn-edit {
+            background-color: #007bff;
+        }
+
+        .btn-edit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin : 20px 0;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* New Styles for Search */
+        .search-container {
+            display: flex;
+            align-items: center; /* Align items vertically */
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-icon {
+            color: #ffd700; /* Gold color for the icon */
+            font-size: 18px; /* Size of the icon */
+        }
+        Com
+
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba( 255, 255, 255, 0.3);
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        select:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        select:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="text"], select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+
+        input[type="text"]::placeholder {
+            color: #ffd700; /* Bright gold color for placeholder */
+            opacity: 1; /* Ensures full opacity */
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sorting-container {
+            margin: 20px 0;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        select:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        select:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Placeholder Styles */
+        input[type="text"]::placeholder {
+            color: #ffd700; /* This is a bright gold color */
+            opacity: 1; /* Ensures full opacity */
+        }
+
+        /* Download Dropdown Container */
+        .download-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none; /* Hidden by default */
+            position: absolute;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            min-width: 100px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        /* Visible state when triggered */
+        .dropdown-content.show {
+            display: block;
+        }
+
+
+        /* Dropdown Links */
+        .dropdown-content a {
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .dropdown-content a:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-info {
+            color: #31708f;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }
+
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<header>
+    <h1>
+        <img src="/images/uppermostlogo.jpg" alt="BAL Logo" style="height: 40px; margin-right: 10px;">
+        <span th:text="#{header.title}"></span>
+    </h1>
+    <nav>
+        <a th:href="@{/home}" th:text="#{header.home}"></a>
+        <a th:href="@{/admin/users}" th:text="#{header.userManagement}"></a>
+        <!-- Logout with confirmation -->
+        <a th:href="@{/login}"
+           th:onclick="return confirm([[#{confirm.logout}]]);"
+           th:text="#{header.logout}">
+        </a>
+    </nav>
+</header>
+
+<!-- User List Section -->
+<div class="container">
+    <h2 th:text="#{header.userManagement}"></h2>
+
+    <!-- Download Button -->
+    <a href="#" class="download-btn" onclick="toggleDropdown(event)">
+        <i class="fas fa-download"></i> <span th:text="#{button.downloadUsers}"></span>
+    </a>
+    <div id="downloadDropdown" class="dropdown-content">
+        <a href="#" onclick="downloadUsers('pdf'); return false;" th:text="#{button.downloadUsers.pdf}"></a>
+        <a href="#" onclick="downloadUsers('csv'); return false;" th:text="#{button.downloadUsers.csv}"></a>
+        <a href="#" onclick="downloadUsers('excel'); return false;" th:text="#{button.downloadUsers.excel}"></a>
+    </div>
+
+
+    <div id="downloadStatus" style="display: none;" class="alert alert-info">
+        Preparing download...
+    </div>
+
+
+    <!-- Add User Button -->
+    <a th:href="@{/admin/users/add}" class="btn btn-primary" th:text="#{button.addUser  }"></a>
+
+    <!-- Search Form -->
+    <!-- Search Form -->
+    <!-- Search Form -->
+    <form method="get" th:action="@{/admin/users}">
+        <div class="search-container">
+            <label for="searchCriteria"></label>
+            <!-- Search Icon -->
+            <span class="search-icon">
+            <i class="fas fa-search"></i>
+        </span>
+            <select name="searchCriteria" id="searchCriteria">
+                <option value="username" th:text="#{search.username}"
+                        th:selected="${searchCriteria == 'username'}"></option>
+                <option value="email" th:text="#{search.email}"
+                        th:selected="${searchCriteria == 'email'}"></option>
+                <option value="role" th:text="#{search.role}"
+                        th:selected="${searchCriteria == 'role'}"></option>
+            </select>
+            <label>
+                <input type="text" name="search" th:placeholder="#{search.placeholder}"
+                       th:value="${search}" />
+            </label>
+            <input type="submit" th:value="#{search.button}" class="btn btn-primary" />
+            <button type="button" class="btn btn-primary" onclick="resetSearch()" th:text="#{search.reset}"></button>
+        </div>
+    </form>
+
+    <div class="sorting-container">
+        <label for="sortOptions" style="color: #ffd700; font-weight: bold;" th:text="#{sort.label}"></label>
+        <select id="sortOptions" onchange="sortUsers()">
+            <option value="" disabled selected th:text="#{sort.option.username.asc}"></option>
+            <option value="username,asc" th:selected="${sortBy == 'username' && sortDir == 'asc'}" th:text="#{sort.option.username.asc}"></option>
+            <option value="username,desc" th:selected="${sortBy == 'username' && sortDir == 'desc'}" th:text="#{sort.option.username.desc}"></option>
+            <option value="email,asc" th:selected="${sortBy == 'email' && sortDir == 'asc'}" th:text="#{sort.option.email.asc}"></option>
+            <option value="email,desc" th:selected="${sortBy == 'email' && sortDir == 'desc'}" th:text="#{sort.option.email.desc}"></option>
+            <option value="role,asc" th:selected="${sortBy == 'role' && sortDir == 'asc'}" th:text="#{sort.option.role.asc}"></option>
+            <option value="role,desc" th:selected="${sortBy == 'role' && sortDir == 'desc'}" th:text="#{sort.option.role.desc}"></option>
+        </select>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th th:text="#{table.id}"></th>
+            <th th:text="#{table.username}"></th>
+            <th th:text="#{table.email}"></th>
+            <th th:text="#{table.role}"></th>
+            <th th:text="#{table.actions}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <a th:href="@{/admin/users/update/{id}(id=${user.id})}" class="btn btn-edit" th:text="#{button.edit}"></a>
+
+                <!-- Delete with confirmation using Thymeleaf-resolved localized message -->
+                <a th:href="@{/admin/users/delete/{id}(id=${user.id})}" class="btn btn-delete"
+                   th:text="#{button.delete}"
+                   th:onclick="'return confirm(' + '\'' + #{confirm.delete} + '\'' + ');'"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination Section -->
+    <div class="pagination">
+        <a th:href="@{/admin/users(page=${currentPage - 1}, search=${search}, sortBy=${sortBy}, sortDir=${sortDir})}"
+           th:if="${currentPage > 0}" th:text="#{pagination.previous}"></a>
+
+        <!-- Display current page number -->
+        <span th:text="${currentPage + 1}"></span>
+
+        <a th:href="@{/admin/users(page=${currentPage + 1}, search=${search}, sortBy=${sortBy}, sortDir=${sortDir})}"
+           th:if="${currentPage < totalPages - 1}" th:text="#{pagination.next}"></a>
+    </div>
+</div>
+
+<script>
+    // Function to reset search fields and show all users
+    function resetSearch() {
+        window.location.href = '/admin/users';
+        const form = document.querySelector('form');
+        const searchInput = document.querySelector('input[name="search"]');
+
+        // Clear the search input
+        searchInput.value = '';
+
+        // Submit the form to refresh the user list
+        form.submit();
+    }
+
+    // Function to handle sorting
+    function sortUsers() {
+        const select = document.getElementById('sortOptions');
+        const selectedValue = select.value;
+
+        if (selectedValue) {
+            const [sortBy, sortDir] = selectedValue.split(',');
+            window.location.href = `/admin/users?sortBy=${sortBy}&sortDir=${sortDir}`;
+        }
+    }
+
+    function downloadUsers(format) {
+        // Show status
+        const statusDiv = document.getElementById('downloadStatus');
+        statusDiv.style.display = 'block';
+            alert(`Download ${format} format initiated`);
+
+        // Determine the URL based on format
+        let url = '/admin/users';
+        switch(format) {
+            case 'csv':
+                url = '/admin/users/download';  // This matches ✓
+                break;
+            case 'pdf':
+                url = '/admin/users/download/pdf';  // This matches ✓
+                break;
+            case 'excel':
+                url = '/admin/users/download/excel';  // This matches ✓
+                break;
+            default:
+                console.error('Invalid format');
+                return;
+        }
+
+        // Make the request
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': getContentType(format)
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a temporary URL for the blob
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+
+                // Set the filename based on format
+                let filename = 'Users_data.';
+                switch(format) {
+                    case 'pdf':
+                        filename += 'pdf';
+                        break;
+                    case 'csv':
+                        filename += 'csv';
+                        break;
+                    case 'excel':
+                        filename += 'xlsx';
+                        break;
+                }
+                a.download = filename;
+
+                // Trigger the download
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                // Hide status with success message
+                statusDiv.className = 'alert alert-success';
+                statusDiv.textContent = /*[[${'status.downloadCompleted'}]]*/ 'Download completed!'; // Default message as fallback
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                    statusDiv.className = 'alert alert-info';
+                    statusDiv.textContent = /*[[${'status.downloadPreparing'}]]*/ 'Preparing download...'; // Default message as fallback
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Download failed:', error);
+                statusDiv.className = 'alert alert-danger';
+                statusDiv.textContent = /*[[${'status.downloadFailed'}]]*/ 'Download failed. Please try again.'; // Default message as fallback
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                    statusDiv.className = 'alert alert-info';
+                    statusDiv.textContent = /*[[${'status.downloadPreparing'}]]*/ 'Preparing download...'; // Default message as fallback
+                }, 3000);
+            });
+        //     alert(`Download ${format} format initiated`);
+    }
+
+    function getContentType(format) {
+        switch(format) {
+            case 'pdf':
+                return 'application/pdf';
+            case 'csv':
+                return 'text/csv';
+            case 'excel':
+                return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            default:
+                return 'application/octet-stream';
+        }
+    }
+
+    // Close dropdown if clicked outside
+    window.onclick = function(event) {
+        if (!event.target.matches('.download-btn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+    // Function to toggle dropdown visibility
+    function toggleDropdown(event) {
+        event.preventDefault();  // Prevents page from reloading
+        const dropdown = document.getElementById('downloadDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Hide dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('downloadDropdown');
+        if (!event.target.closest('.download-btn')) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+</script>
+
+</body>
+</html>

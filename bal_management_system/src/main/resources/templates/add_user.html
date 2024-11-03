@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{add.user.title}">Add New User</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the favicon -->
+    <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+
+    <!-- Add Font Awesome for icons -->
+    <link rel="icon" type="image/png" href="images/bal_image.jpeg">
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #001f3f, #0074d9);
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            color: #fff;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        label {
+            font-weight: bold;
+            align-self: flex-start;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #fff;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0074d9;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Back Button Styles */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 15px;
+            background-color: #ffd700;
+            color: #001f3f;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #ffc107;
+        }
+
+        /* Profile Picture Preview */
+        #profilePicturePreview {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 2px solid #fff;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Camera Icon */
+        .camera-icon {
+            font-size: 40px;
+            color: #0074d9;
+        }
+
+        /* Hover Effect */
+        #profilePicturePreview:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Show overlay text when hovering */
+        #profilePicturePreview:hover .upload-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hidden text when not hovering */
+        .upload-text {
+            position : absolute;
+            font-size: 14px;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Hide input file button */
+        #profilePicture {
+            display: none;
+        }
+    </style>
+
+    <script>
+        // Open file input dialog on clicking or hovering over the preview box
+        function openFileChooser() {
+            document.getElementById('profilePicture').click();
+        }
+
+        // Preview the uploaded image and hide the camera icon
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('profilePicturePreview');
+            const cameraIcon = document.getElementById('cameraIcon');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.style.backgroundImage = `url(${e.target.result})`;
+                    preview.style.backgroundSize = 'cover';
+                    preview.style.backgroundPosition = 'center';
+                    cameraIcon.style.display = 'none';  // Hide camera icon once an image is uploaded
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+<!-- Header Section -->
+<header>
+    <h1>
+        <img src="/images/uppermostlogo.jpg" alt="BAL Logo" style="height: 40px; margin-right: 10px;">
+        Basketball Africa League
+    </h1>
+    <nav>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/admin/users}">User Management</a>
+        <a th:href="@{/logout}">Logout</a>
+        <a th:href="@{/home}">HOME</a>
+    </nav>
+</header>
+
+<!-- Add User Form Section -->
+<div class="container">
+    <a th:href="@{/admin/users}" class="back-link" th:text="#{add.user.back}">Back to User Management</a>
+    <h2 th:text="#{add.user.title}">Add New User</h2>
+    <form th:action="@{/admin/users/add}" th:object="${user}" method="post" enctype="multipart/form-data">
+
+        <label th:text="#{add.user.firstName}">First Name:</label>
+        <input type="text" th:field="*{firstName}" required/>
+
+        <label th:text="#{add.user.lastName}">Last Name:</label>
+        <input type="text" th:field="*{lastName}" required/>
+
+        <label th:text="#{add.user.dateOfBirth}">Date of Birth:</label>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" th:field="*{dateOfBirth}" required/>
+
+        <label th:text="#{add.user.phoneNumber}">Phone Number:</label>
+        <input type="text" th:field="*{phoneNumber}" required/>
+
+        <label th:text="#{add.user.username}">Username:</label>
+        <input type="text" id="username" th:field="*{username}" required>
+
+        <label th:text="#{add.user.email}">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required>
+
+        <label th:text="#{add.user.password}">Password:</label>
+        <input type="password" id="password" th:field="*{password}" required>
+
+        <label th:text="#{add.user.role}">Role:</label>
+        <select th:field="*{role}" required>
+            <option value="" disabled selected th:text="#{add.user.role.select}">Select user role</option>
+            <option value="USER" th:text="#{add.user.role.user}">USER</option>
+            <option value="ADMIN" th:text="#{add.user.role.admin}">ADMIN</option>
+        </select>
+
+        <label th:text="#{add.user.profilePicture}">Profile Picture:</label>
+        <!-- Hidden file input field -->
+        <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required onchange="previewImage(event)">
+
+        <!-- Image preview box with camera icon and hoverable text -->
+        <div id="profilePicturePreview" onmouseover="openFileChooser()" onclick="openFileChooser()">
+            <i id="cameraIcon" class="fas fa-camera camera-icon"></i>
+            <span class="upload-text" th:text="#{add.user.profilePicture}">Choose file</span>
+        </div>
+
+        <button type="submit" th:text="#{add.user.register}">Register</button>
+    </form>
+</div>
+
+</body>
+</html>
